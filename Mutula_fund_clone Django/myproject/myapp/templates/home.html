@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+
+    <!-- Bootstrap CSS from CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+   
+
+</head>
+<body>
+    <div class="container mt-4">
+        {% if messages %}
+            <div class="alert alert-dismissible {% if messages.tags %}{{ messages.tags }}{% else %}alert-info{% endif %}">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+<div class="container mt-5">
+
+    <!-- Form -->
+    <form action="{% url 'home' %}" method="post" class="form">
+
+        {% csrf_token %}
+        <h1 class="btn btn-dark">Add User</h1><br><br>
+        <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Enter Name" name="name"><br>
+            <input type="number" class="form-control" placeholder="Enter Fundscode" name="fundcode"><br>
+            <input type="number" class="form-control" placeholder="Enter Invested Amount" name="investedamount"><br>
+            <input type="number" class="form-control" placeholder="Enter Unitsheld" name="unitsheld"><br>
+
+            <input type="submit" class="btn btn-primary">
+        </div>
+    </form>
+
+    <!-- Table -->
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Fund Name</th>
+                <th>Invested Amount</th>
+                <th>Unitsheld</th>
+                <th>Nav</th>
+                <th>Current Value</th>
+                <th>Growth</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in data %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.fund_house }}</td>
+                    <td>{{ i.invested }}</td>
+                    <td>{{ i.unit_held }}</td>
+                    <td>{{ i.nav }}</td>
+                    <td>{{ i.currentvalue }}</td>
+                    <td>{{ i.growth }}</td>
+                    <td><a href="{% url 'update' id=i.id %}" class="btn btn-info">Edit</a></td>
+                    <td><a href="{% url 'delete' id=i.id %}" class="btn btn-danger">Delete</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Bootstrap JavaScript and Popper.js CDN -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
